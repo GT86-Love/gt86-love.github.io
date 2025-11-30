@@ -1,0 +1,47 @@
+<html lang="ja"><head><title>WHY</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<h1>HAHAHA</h1><script>
+
+
+const defaultValues = {
+  // ...
+}
+window.addEventListener("load", (e) => {
+  Array.from(document.getElementsByClassName("savecontrol")).forEach((e) => {   
+    e.value = localStorage.getItem(e.id) ? localStorage.getItem(e.id) : (defaultValues[e.id] !== undefined ? defaultValues[e.id] : "");
+    e.addEventListener("change", (e) => {
+      localStorage.setItem(e.target.id, e.target.value);
+    });
+  });
+});
+  
+</script>
+  
+    
+
+
+
+  
+    <p>faafafffffffaaaafafaafafaf</p>
+    <button type="button" onclick="alert('hello,world!')">Button</button>
+
+
+    <form>
+        <input type="file" name="files" required="">
+        <button type="submit">送信する</button>
+    </form>
+  
+
+  <form>
+        <input type="text" id="savecontrol" name="name">
+        <button type="submit" id="savecontrol">Send Message</button>
+  </form>
+
+
+  <p id="savecontrol">
+
+</p></body></html>
