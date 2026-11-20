@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>仏タイピング</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/img/TabIcon.svg">
+  <!-- CSSスタイルシートの読み込み（絶対パス化） -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  
+  <style>
+    body {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+    }
+
+    .main-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+      box-sizing: border-box;
+    }
+
+    .content-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .game-screen-box {
+      width: 100%;
+      max-width: 600px;
+      aspect-ratio: 1 / 1;
+      box-sizing: border-box;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .game-header-banner {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 15px 0 10px 0;
+      box-sizing: border-box;
+    }
+
+    .game-logo-svg {
+      max-width: 220px;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* 説明枠の左側に広告をインラインで配置するコンテナ */
+    .lower-content-section {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      align-items: flex-start; /* 縦に引き伸ばさない */
+      gap: 15px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    /* 左側の広告枠（説明欄の長さに引っ張られないよう高さを固定・コンパクト化） */
+    .sidebar-ad-box {
+      position: absolute;
+      right: calc(100% + 15px);
+      top: 0;
+      width: 140px;
+      height: 250px; /* 縦長になりすぎないよう適切な高さに固定 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    /* 説明枠は一切形・位置を変えずそのままのサイズを維持 */
+    .about-section-box {
+      width: 100%;
+      max-width: 600px;
+      box-sizing: border-box;
+      word-break: break-word;
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid #e1e8ed;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .about-item {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .about-item h3 {
+      font-size: 1.1rem;
+      color: #2c3e50;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .about-item p {
+      font-size: 0.95rem;
+      color: #4a5568;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    @media screen and (max-width: 800px) {
+      .game-screen-box {
+        max-width: 100%;
+        height: auto;
+        min-height: 400px;
+      }
+      
+      .game-logo-svg {
+        max-width: 160px;
+      }
+      
+      /* スマホ表示時は絶対配置を解除して縦並びに切り替え */
+      .lower-content-section {
+        flex-direction: column;
+        max-width: 600px;
+      }
+
+      .sidebar-ad-box {
+        position: static;
+        width: 100%;
+        height: 90px;
+      }
+      
+      .home-menu-buttons, .home-sub-menu-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .menu-btn {
+        font-size: 0.9rem;
+        padding: 10px 14px;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 共通ヘッダー読み込み用コンテナ -->
+  <div id="siteHeader"></div>
+
+  <!-- メインコンテンツ領域 -->
+  <main class="main-container">
+    <div class="content-wrapper">
+      
+      <!-- 正方形のプレイ画面（ホーム画面） -->
+      <section class="game-screen-box" id="screenHome">
+        <div class="game-header-banner">
+          <img src="/assets/img/hotoke.svg" alt="仏タイピングロゴ" class="game-logo-svg">
+        </div>
+        
+        <!-- スペースキーでスタート枠 -->
+        <div class="start-prompt-box">
+          <span class="gold-glow-text">スペースキーでスタート</span>
+        </div>
+
+        <!-- 各種ボタン群（プレイ記録、獲得したランク、顔の変更） -->
+        <div class="home-menu-buttons">
+          <button class="menu-btn" id="openPlayRecordBtn"><img src="/assets/img/buttons/play_record.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">タイピング記録</button>
+          <button class="menu-btn" id="openRankModalBtn"><img src="/assets/img/buttons/rank.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">獲得したランク</button>
+          <button class="menu-btn" id="openFaceModalBtn"><img src="/assets/img/buttons/change_faces.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">顔の変更</button>
+        </div>
+        <!-- サブメニューボタン群（タイピング設定、バックアップ） -->
+        <div class="home-sub-menu-buttons">
+          <button class="menu-btn" id="openSettingsModalBtn"><img src="/assets/img/buttons/typing_settings.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">タイピング設定</button>
+          <button class="menu-btn backup-active-glow" id="openBackupModalBtn"><img src="/assets/img/buttons/backup.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">バックアップ</button>
+        </div>
+
+        <!-- 各種モーダル・オーバーレイ置き場（プレイ画面内に収納） -->
+        
+        <!-- 1. タイピング記録モーダル -->
+        <div class="modal-overlay" id="playRecordModal">
+          <div class="modal-content">
+            <h3>タイピング記録</h3>
+            <div class="high-score-box">今までに打った文字数: <span id="recordTotalTyped">0</span> 文字</div>
+            <div class="high-score-box">ハイスコア: <span id="recordHighScore">--</span></div>
+            <div class="high-score-box">今までのタイピングプレイ回数: <span id="recordClearCount">0</span> 回</div>
+            <button class="menu-btn" id="openDeleteDataModalBtn" style="background-color: #d9534f; color: #fff; margin-top: 10px; width: 100%;">プレイデータを削除</button>
+            <button class="btn-close-modal" data-target="playRecordModal">閉じる</button>
+          </div>
+        </div>
+
+        <!-- 2. 獲得したランクモーダル -->
+        <div class="modal-overlay rank-modal-overlay" id="rankModal">
+          <div class="modal-content rank-modal-content-box">
+            <div class="rank-header-title">
+              <h3>👑 ランク一覧</h3>
+            </div>
+            <div id="rankListContainer" class="rank-grid-container">
+              <!-- 左カラム：11〜20 -->
+              <div class="rank-column-box">
+                <div class="rank-card-item" data-id="20"><span class="rank-card-num">20</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="19"><span class="rank-card-num">19</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="18"><span class="rank-card-num">18</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="17"><span class="rank-card-num">17</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="16"><span class="rank-card-num">16</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="15"><span class="rank-card-num">15</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="14"><span class="rank-card-num">14</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="13"><span class="rank-card-num">13</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="12"><span class="rank-card-num">12</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="11"><span class="rank-card-num">11</span><span class="rank-card-name">?</span></div>
+              </div>
+              <!-- 右カラム：1〜10 -->
+              <div class="rank-column-box">
+                <div class="rank-card-item" data-id="10"><span class="rank-card-num">10</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="9"><span class="rank-card-num">9</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="8"><span class="rank-card-num">8</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="7"><span class="rank-card-num">7</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="6"><span class="rank-card-num">6</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="5"><span class="rank-card-num">5</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="4"><span class="rank-card-num">4</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="3"><span class="rank-card-num">3</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="2"><span class="rank-card-num">2</span><span class="rank-card-name">?</span></div>
+                <div class="rank-card-item" data-id="1"><span class="rank-card-num">1</span><span class="rank-card-name">?</span></div>
+              </div>
+            </div>
+            <div class="rank-modal-footer">
+              <span class="rank-instruction-text">ランクの枠内にカーソルを合わせることで解放条件を表示できます。</span>
+              <button class="btn-close-modal" data-target="rankModal">閉じる</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 顔の変更モーダル -->
+        <div class="modal-overlay" id="faceModal">
+          <div class="modal-content">
+            <h3>顔の変更</h3>
+            <div id="faceListContainer" class="face-list-container"></div>
+            <button class="btn-close-modal" data-target="faceModal">閉じる</button>
+          </div>
+        </div>
+
+        <!-- 4. タイピング設定モーダル -->
+        <div class="modal-overlay" id="settingsModal">
+          <div class="modal-content">
+            <h3>タイピング設定</h3>
+            <div class="settings-group">
+              <h4 style="font-size: 0.95rem; margin-bottom: 8px; color: #2c3e50;">テキスト設定</h4>
+              <label style="font-size: 0.9rem; color: #4a5568; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="romajiGuideSetting" checked> ローマ字を表示する
+              </label>
+            </div>
+            <div class="settings-group" style="margin-top: 15px;">
+              <h4 style="font-size: 0.95rem; margin-bottom: 8px; color: #2c3e50;">サウンド設定</h4>
+              <label style="font-size: 0.9rem; color: #4a5568; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="soundEffectSetting" checked> 効果音を再生する
+              </label>
+            </div>
+            <button class="btn-close-modal" data-target="settingsModal">閉じる</button>
+          </div>
+        </div>
+
+        <!-- 5. バックアップ作成・復元モーダル -->
+        <div class="modal-overlay" id="backupModal">
+          <div class="modal-content">
+            <h3>バックアップ</h3>
+            <button class="btn-primary" id="createBackupBtn" style="width: 100%; margin-bottom: 10px;">バックアップを作成</button>
+            <p class="backup-desc">
+              バックアップを作成すると、これからのプレイ記録が自動で保存されます。スコアが更新されるたびにデータが常に最新のものになるため、復元するときも最新の状態から復元可能です。
+            </p>
+            <div class="current-backup-section">
+              <h4>現在のバックアップ</h4>
+              <div class="backup-status-box" id="backupStatusBox">
+                バックアップはありません。
+              </div>
+            </div>
+            <button class="btn-close-modal" data-target="backupModal">閉じる</button>
+          </div>
+        </div>
+
+        <!-- 6. ゲーム終了時リザルト詳細モーダル -->
+        <div class="modal-overlay" id="gameOverviewModal">
+          <div class="modal-content">
+            <h3>プレイ概要</h3>
+            <p>1秒当たりの平均タイプ数: <span id="overviewKPS">0.0</span></p>
+            <p>コンボの最大継続: <span id="overviewMaxComboSec">0</span>秒</p>
+            <p>正確率: <span id="overviewAccuracy">100</span>%</p>
+            <button class="btn-close-modal" data-target="gameOverviewModal">閉じる</button>
+          </div>
+        </div>
+
+        <!-- 7. ランキングモーダル -->
+        <div class="modal-overlay" id="rankingModal">
+          <div class="modal-content">
+            <h3>ランキング</h3>
+            <div class="ranking-display-box" id="rankingDisplayBox">
+              5000人中 --位
+            </div>
+            <button class="btn-close-modal" data-target="rankingModal">閉じる</button>
+          </div>
+        </div>
+
+        <!-- 8. プレイデータ削除確認モーダル（コンパクト化・アイコン位置修正） -->
+        <div class="modal-overlay" id="deleteDataModal" style="background-color: rgba(0, 0, 0, 0.7);">
+          <div class="modal-content" style="max-width: 380px; height: auto; text-align: center; padding: 25px 20px; margin: auto; display: flex; flex-direction: column; align-items: center;">
+            <img src="/assets/img/warning_icon.png" alt="警告アイコン" class="warning-icon-img" style="width: 48px; height: 48px; margin-bottom: 10px; object-fit: contain; display: block;">
+            <div style="font-weight: bold; font-size: 1.1rem; margin-bottom: 12px; color: #1f2937;">注意</div>
+            <p style="margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5; color: #4b5563; white-space: pre-line;">消去すると本当に元に戻せなくなります。<br>プレイデータを消去してよろしいですか？</p>
+            <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+              <button class="menu-btn" id="confirmDeleteDataBtn" style="background-color: #d9534f; color: #fff; width: 100%; justify-content: center;">プレイデータを消去する</button>
+              <button class="menu-btn" id="cancelDeleteDataBtn" style="background-color: #6c757d; color: #fff; width: 100%; justify-content: center;">やめる</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9. プレイデータ削除完了モーダル（新規追加） -->
+        <div class="modal-overlay" id="deleteCompleteModal" style="background-color: rgba(0, 0, 0, 0.7);">
+          <div class="modal-content" style="max-width: 360px; height: auto; text-align: center; padding: 30px 20px; margin: auto; display: flex; flex-direction: column; align-items: center;">
+            <div style="font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; color: #1f2937;">プレイデータを消去しました。</div>
+            <button class="btn-primary" id="closeDeleteCompleteBtn" style="width: 100%;">OK</button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- プレイ中のゲーム画面（デフォルト非表示） -->
+      <section class="game-screen-box playing-active-screen" id="screenGame" style="display: none;">
+        <div class="game-top-hud" style="display: flex; justify-content: space-between; align-items: center; padding: 6px 15px 0 15px; box-sizing: border-box; width: 100%;">
+          <div id="timerDisplay" style="font-size: 1.25rem; font-weight: bold; color: var(--text-main);">0.0秒</div>
+          <div id="smileCountDisplayContainer" style="font-size: 1.25rem; font-weight: bold; color: var(--text-main);">
+            笑顔にした数: <span id="smileCountDisplay">0</span>回
+          </div>
+        </div>
+        <div class="face-display-area" style="position: relative; overflow: hidden;">
+          <img id="faceImage" src="/assets/img/faces/default_normal.png" alt="表情" class="face-img-element" style="display: none;">
+          <img id="faceNormalLayer" class="face-layer-img" src="/assets/img/faces/default_normal.png" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 1; pointer-events: none;">
+          <img id="faceSmileLayer" class="face-layer-img" src="/assets/img/faces/default_smile.png" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 2; opacity: 0; transition: opacity 0.05s ease-out; pointer-events: none;">
+        </div>
+        <!-- 笑顔メーター -->
+        <div class="smile-meter-container">
+          <div id="smileMeterFill" class="smile-meter-fill"></div>
+        </div>
+        <!-- タイピング文字列表示枠 -->
+        <div class="typing-word-box" id="typingWord">
+          読み込み中...
+        </div>
+      </section>
+
+      <!-- 広告枠と仏タイピングについての説明を配置するコンテナ -->
+      <div class="lower-content-section">
+        <!-- 左側の広告枠（説明欄の高さに引っ張られない固定サイズ） -->
+        <div class="sidebar-ad-box"></div>
+
+        <!-- 仏タイピングについての説明（元のサイズ・形を完全に維持） -->
+        <section class="about-section-box">
+          <div class="about-item">
+            <h3>仏タイピングについて</h3>
+            <p>タイピングをしながら、画面上の顔の表情の変化を楽しめるブラウザ型のタイピング練習サイトです。1分間の制限時間の中で、タイピングスピードと正確性の向上を手軽に練習できます。</p>
+          </div>
+          <div class="about-item">
+            <h3>上達のポイント</h3>
+            <p>ミスせず一定時間タイピングを続けることで「連続正解状態」となり、笑顔メーターのたまる速度が加速します。ミスするとメーターの増え方が元通りに戻るので、一つのミスがタイムロスになります。焦らず正確にタイピングするのがコツです。</p>
+          </div>
+          <div class="about-item">
+            <h3>操作方法</h3>
+            <p>・タイピングはスペースキーでのみスタートできます。<br>・タイピング中の文字入力はキーボードでの入力となります。<br>・altキーなどを押してしまって入力できなくなってしまった場合は、もう一度サイト画面をクリックしてください。<br>・タイピング中にEscキーを押すことで中断しホーム画面に戻れます。<br>・タイピング終了時の結果画面では、クリップボードボタンを押すことで正確率や1秒当たりの平均タイプ数等を表示できます。また、Xのボタンをクリックすることで、タイピングの結果をXにポスト出来ます。また、矢印ボタンでもう一度タイピングすることができます。</p>
+          </div>
+          <div class="about-item">
+            <h3>コンセプト</h3>
+            <p>タイピングをするときの緊張感を和らげ、リラックスして集中できるサイトにするため、仏のモチーフと笑顔になる仕組みを組み合わせた独自のコンセプトで設計しています。</p>
+          </div>
+          <div class="about-item">
+            <h3>推奨環境</h3>
+            <p>※スマートフォンでのタイピングはできません。PCかつ推奨ブラウザ(Google ChromeやFireFox)などでのタイピングを推奨します。</p>
+          </div>
+          <div class="about-item">
+            <h3>よくある質問</h3>
+            <p><strong>Q. 学校や会社で利用できますか？</strong><br>A. はい、インストールは不要なのでWebブラウザで利用できます。また、ブラウザツールとして軽量化を行っており、入力の遅延や動作が重くならずにタイピングを行うことができます。もし学校のフィルタリングソフトなどでアクセスがブロックされる場合、このサイトのURLを許可リストへ追加してください。児童や生徒さんの場合は、ICT担当者にご相談ください。<br><br><strong>Q. タイピング時などに個人情報は保存しますか？</strong><br>A. ユーザーの個人情報は保存しません。ですが、お問い合わせ時に管理者が回答するまでの間、一時的にIPアドレスなどの情報を保存します。詳しくはプライバシーポリシーを確認してください。<br>その他の質問は画面上部のFAQから確認してください。</p>
+          </div>
+          <div class="about-item">
+            <h3>効率的なタイピングのコツ</h3>
+            <p>画面上に表示されているローマ字以外にも入力できます。例えば、「し」と打つ場合にも「si」や「shi」や「ci」など複数の入力方式に対応しており、ご自身の打ちやすいスタイルでタイピングをすることができます。</p>
+          </div>
+          <div class="about-item">
+            <h3>不具合やバグについて</h3>
+            <p>タイピング上の不具合や予期せぬ動作を発見した場合は、サイト上部のお問い合わせからご報告ください。</p>
+          </div>
+        </section>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 共通フッター読み込み用コンテナ -->
+  <div id="siteFooter"></div>
+
+  <!-- スクリプトの読み込み（絶対パス化） -->
+  <script src="/assets/js/words.js"></script>
+  <script src="/assets/js/sound.js"></script>
+  <script src="/assets/js/game.js"></script>
+  <script src="/assets/js/main.js"></script>
+
+  <!-- 共通ヘッダー・フッターの非同期読み込みスクリプト -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      fetch('/components/header.html')
+        .then(response => {
+          if (!response.ok) throw new Error('Header load failed');
+          return response.text();
+        })
+        .then(data => {
+          const headerEl = document.getElementById('siteHeader');
+          if (headerEl) headerEl.innerHTML = data;
+        })
+        .catch(err => console.error('Header load error:', err));
+
+      fetch('/components/footer.html')
+        .then(response => {
+          if (!response.ok) throw new Error('Footer load failed');
+          return response.text();
+        })
+        .then(data => {
+          const footerEl = document.getElementById('siteFooter');
+          if (footerEl) footerEl.innerHTML = data;
+        })
+        .catch(err => console.error('Footer load error:', err));
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<header class="site-header">
+  <div class="header-inner">
+    <!-- 左側：フッターの左側と同じ幅（min-width）を確保して位置を完全固定 -->
+    <div class="header-left">
+      <a href="/typing.html" class="header-logo-link">
+        <img src="/assets/img/favicon.svg" alt="仏タイピング" class="header-logo" style="width: 160px; height: 160px;">
+      </a>
+    </div>
+
+    <!-- 中央：ナビゲーション -->
+    <nav class="header-nav">
+      <ul class="nav-list">
+        <li><a href="/faq.html" class="nav-link">FAQ</a></li>
+      </ul>
+    </nav>
+
+    <!-- 右側：左側と同じ幅（min-width）を持たせて左右対称にする -->
+    <div class="header-right">
+    </div>
+  </div>
+</header>
+
+<style>
+  /* ==========================================================================
+   * ヘッダー専用スタイル（アイコンによる巨大化防止修正済み）
+   * ========================================================================== */
+  .site-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e1e8ed;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    /* ★ アイコン領域の高さを固定し、ヘッダー全高を押し広げないように保護 */
+    height: 48px;
+  }
+
+  .header-logo-link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  /* ヘッダー用アイコン（サイズを自由に変更しても枠内に収まるように制限） */
+  .header-logo {
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .header-nav .nav-list {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+  }
+
+  .nav-link {
+    color: #475569;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-link:hover {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 48px;
+  }
+</style>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found - 仏タイピング</title>
+    <!-- ファビコン・公式アイコン設定 -->
+    <link rel="icon" type="image/svg+xml" href="/assets/img/TabIcon.svg">
+    <link rel="apple-touch-icon" href="/assets/img/TabIcon.svg">
+    <!-- 共通スタイルシートの読み込み -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    
+    <style>
+        /* ==========================================================================
+         * 仏タイピング - 404.html スタイルシート
+         * ========================================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f0f8ff; /* 白よりの水色ベース */
+            color: #333333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .main-container {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: auto;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .error-code {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .error-message {
+            font-size: 1rem;
+            color: #4a5568;
+            margin-bottom: 30px;
+            line-height: 1.8;
+            max-width: 600px;
+        }
+
+        /* トップへ戻るボタンのスタイル定義 */
+        .btn-top {
+            background-color: #3b82f6;
+            color: #ffffff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn-top:hover {
+            background-color: #2563eb;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 共通ヘッダー読み込み用コンテナ -->
+    <div id="siteHeader"></div>
+
+    <!-- メインコンテンツ領域 -->
+    <main class="main-container">
+        <div class="error-code">404 | Not Found</div>
+        <p class="error-message">お探しのページは削除されたか、ページ名が変更された、あるいは一時的に利用できない可能性があります。</p>
+        <a href="/typing.html" class="btn-top">トップへ戻る</a>
+    </main>
+
+    <!-- 共通フッター読み込み用コンテナ -->
+    <div id="siteFooter"></div>
+
+    <!-- スクリプト制御部（絶対パス化） -->
+    <script src="/assets/js/main.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. 共通ヘッダーの非同期読み込み
+            fetch('/components/header.html')
+                .then(res => {
+                    if (!res.ok) throw new Error('Header load failed');
+                    return res.text();
+                })
+                .then(data => {
+                    const headerEl = document.getElementById('siteHeader');
+                    if (headerEl) headerEl.innerHTML = data;
+                })
+                .catch(err => console.error('Header load error:', err));
+
+            // 2. 共通フッターの非同期読み込み
+            fetch('/components/footer.html')
+                .then(res => {
+                    if (!res.ok) throw new Error('Footer load failed');
+                    return res.text();
+                })
+                .then(data => {
+                    const footerEl = document.getElementById('siteFooter');
+                    if (footerEl) footerEl.innerHTML = data;
+                })
+                .catch(err => console.error('Footer load error:', err));
+        });
+    </script>
+</body>
+</html>

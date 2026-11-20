@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>よくある質問 - 仏タイピング</title>
+    <!-- タブアイコン (SVGを大きくすっぽりはまるサイズで指定) -->
+    <link rel="icon" type="image/svg+xml" href="/assets/img/TabIcon.svg">
+    <link rel="apple-touch-icon" href="/assets/img/TabIcon.svg">
+    <!-- 共通スタイルシートの読み込み -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    
+    <style>
+        /* 共通リセット・ベーススタイル */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f0f8ff; /* index.htmlと統一した白よりの水色 */
+            color: #333333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* メインコンテンツエリア */
+        .main-container {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        /* アコーディオン（折り畳み式）スタイル */
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .faq-item {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid #e1e8ed;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 20px 24px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            outline: none;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: #3498db;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+            padding: 0 24px;
+            background-color: #fafbfc;
+            color: #555555;
+            font-size: 1rem;
+        }
+
+        .faq-answer-content {
+            padding-bottom: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ヘッダーの読み込み領域（siteHeader IDに統一して他ページとの整合性を確保） -->
+    <div id="siteHeader"></div>
+
+    <!-- メインコンテンツ -->
+    <main class="main-container">
+        <h1 class="page-title">よくある質問</h1>
+        
+        <div class="faq-list">
+            <!-- 質問 1 -->
+            <div class="faq-item">
+                <button class="faq-question" type="button">1. 制限時間はありますか？</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        制限時間は特にありません。タイピング開始から10分が経過すると自動的に終了しますが、それまでは時間制限を気にせず、自分のペースで集中してタイピングをプレイすることができます。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 質問 2 -->
+            <div class="faq-item">
+                <button class="faq-question" type="button">2. 間違えて打ってしまった場合はどうなりますか？</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        ミスをしないで一定時間タイピングを続けると、笑顔メーターがたまるスピードが1.5倍になり、3秒おきに「combo!」のエフェクトが舞い上がります。ミスをすると通常のメーターの増え方に戻ります。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 質問 3 -->
+            <div class="faq-item">
+                <button class="faq-question" type="button">3. 顔の種類はどうやって変更・アンロックできますか？</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        ゲームをたくさんプレイしていくことで、新しい顔が順番にアンロックされていきます。ホーム画面の「顔の変更」から切り替え可能です。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 質問 4 -->
+            <div class="faq-item">
+                <button class="faq-question" type="button">4. プレイデータが消えるのを防ぐにはどうすればよいですか？</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        プレイ画面ホームの「バックアップ」からあらかじめバックアップを作成しておくことで、スコアが更新されるたびに最新の状態が自動で保存されます。万が一の際も、バックアップ画面の「復元する」ボタンからいつでも最新のデータに戻すことができます。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- フッターの読み込み領域（siteFooter IDに統一） -->
+    <div id="siteFooter"></div>
+
+    <!-- 共通パーツ（Header / Footer）および各スクリプトの安全な非同期読み込み -->
+    <script src="/assets/js/main.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // ヘッダーの読み込み（絶対パス化）
+            fetch('/components/header.html')
+                .then(response => {
+                    if (!response.ok) throw new Error('Header load failed');
+                    return response.text();
+                })
+                .then(data => {
+                    const headerEl = document.getElementById('siteHeader');
+                    if (headerEl) headerEl.innerHTML = data;
+                })
+                .catch(err => console.error('Header load error:', err));
+
+            // フッターの読み込み（絶対パス化）
+            fetch('/components/footer.html')
+                .then(response => {
+                    if (!response.ok) throw new Error('Footer load failed');
+                    return response.text();
+                })
+                .then(data => {
+                    const footerEl = document.getElementById('siteFooter');
+                    if (footerEl) footerEl.innerHTML = data;
+                })
+                .catch(err => console.error('Footer load error:', err));
+
+            // 折り畳み（アコーディオン）の動作設定
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const questionBtn = item.querySelector('.faq-question');
+                const answerDiv = item.querySelector('.faq-answer');
+
+                questionBtn.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+
+                    if (isActive) {
+                        item.classList.remove('active');
+                        answerDiv.style.maxHeight = null;
+                    } else {
+                        item.classList.add('active');
+                        // 安全にscrollHeightを設定しつつ、余分なマージン等による高さ不足を防ぐ
+                        answerDiv.style.maxHeight = (answerDiv.scrollHeight + 20) + 'px';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

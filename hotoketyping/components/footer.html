@@ -1,0 +1,94 @@
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-left">
+      <img src="/assets/img/favicon.svg" alt="仏タイピング" class="footer-logo">
+      <span class="footer-brand">仏タイピング</span>
+    </div>
+
+    <ul class="footer-nav">
+      <li><a href="/terms.html" class="footer-link">利用規約</a></li>
+      <li><a href="/privacy.html" class="footer-link">プライバシーポリシー</a></li>
+    </ul>
+
+    <div class="footer-right">
+      <p>&copy; 2026 Neuthorizon All Rights Reserved</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* ==========================================================================
+   * 仏タイピング - footer.html 専用スタイル（完全版・アイコン特大化修正済）
+   * ========================================================================== */
+  .site-footer {
+    background-color: #ffffff;
+    border-top: 1px solid #e1e8ed;
+    width: 100%;
+    margin-top: auto;
+    box-sizing: border-box;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    /* 上下の余白を詰めてコンパクトに調整 */
+    padding: 2px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    box-sizing: border-box;
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    /* ★ アイコン領域の高さを固定し、フッター全高へ影響を与えないように保護 */
+    height: 40px;
+  }
+
+  /* フッター用アイコン（見た目の最大高さを枠内に固定） */
+  .footer-logo {
+    /* ★ 指定の幅・高さを維持しつつ、高さが溢れないよう max-height を設定 */
+    width: 160px;
+    height: 160px;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .footer-brand {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 1.05rem;
+  }
+
+  .footer-nav {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+  }
+
+  .footer-link {
+    color: #666666;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+
+  .footer-link:hover {
+    color: #3498db;
+    text-decoration: underline;
+  }
+
+  .footer-right {
+    color: #888888;
+    font-size: 0.85rem;
+  }
+</style>
