@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>プライバシーポリシー - 仏タイピング</title>
     <!-- ファビコン・公式アイコン設定 -->
-    <link rel="icon" type="image/svg+xml" href="/assets/img/TabIcon.svg">
-    <link rel="apple-touch-icon" href="/assets/img/TabIcon.svg">
+    <link rel="icon" type="image/svg+xml" href="./assets/img/TabIcon.svg">
+    <link rel="apple-touch-icon" href="./assets/img/TabIcon.svg">
     <!-- 共通スタイルシートの読み込み -->
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
     
     <style>
         /* ==========================================================================
@@ -183,11 +183,11 @@
     <div id="siteFooter"></div>
 
     <!-- スクリプト制御部（絶対パス化） -->
-    <script src="/assets/js/main.js"></script>
+    <script src="./assets/js/main.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // 共通ヘッダー・フッターの非同期読み込み（絶対パス化 & 要素チェック追加）
-            fetch('/components/header.html')
+            fetch('./components/header.html')
                 .then(res => {
                     if (!res.ok) throw new Error('Header load failed');
                     return res.text();
@@ -198,7 +198,7 @@
                 })
                 .catch(err => console.error('Header load error:', err));
 
-            fetch('/components/footer.html')
+            fetch('./components/footer.html')
                 .then(res => {
                     if (!res.ok) throw new Error('Footer load failed');
                     return res.text();

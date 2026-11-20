@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 Not Found - 仏タイピング</title>
     <!-- ファビコン・公式アイコン設定 -->
-    <link rel="icon" type="image/svg+xml" href="/assets/img/TabIcon.svg">
-    <link rel="apple-touch-icon" href="/assets/img/TabIcon.svg">
+    <link rel="icon" type="image/svg+xml" href="./assets/img/TabIcon.svg">
+    <link rel="apple-touch-icon" href="./assets/img/TabIcon.svg">
     <!-- 共通スタイルシートの読み込み -->
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
     
     <style>
         /* ==========================================================================
@@ -89,18 +89,18 @@
     <main class="main-container">
         <div class="error-code">404 | Not Found</div>
         <p class="error-message">お探しのページは削除されたか、ページ名が変更された、あるいは一時的に利用できない可能性があります。</p>
-        <a href="/typing.html" class="btn-top">トップへ戻る</a>
+        <a href="/" class="btn-top">トップへ戻る</a>
     </main>
 
     <!-- 共通フッター読み込み用コンテナ -->
     <div id="siteFooter"></div>
 
     <!-- スクリプト制御部（絶対パス化） -->
-    <script src="/assets/js/main.js"></script>
+    <script src="./assets/js/main.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // 1. 共通ヘッダーの非同期読み込み
-            fetch('/components/header.html')
+            fetch('./components/header.html')
                 .then(res => {
                     if (!res.ok) throw new Error('Header load failed');
                     return res.text();
@@ -112,7 +112,7 @@
                 .catch(err => console.error('Header load error:', err));
 
             // 2. 共通フッターの非同期読み込み
-            fetch('/components/footer.html')
+            fetch('./components/footer.html')
                 .then(res => {
                     if (!res.ok) throw new Error('Footer load failed');
                     return res.text();

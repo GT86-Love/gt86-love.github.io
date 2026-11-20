@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>仏タイピング</title>
-  <link rel="icon" type="image/svg+xml" href="/assets/img/TabIcon.svg">
+  <link rel="icon" type="image/svg+xml" href="./assets/img/TabIcon.svg">
   <!-- CSSスタイルシートの読み込み（絶対パス化） -->
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
   
   <style>
     body {
@@ -169,7 +169,7 @@
       <!-- 正方形のプレイ画面（ホーム画面） -->
       <section class="game-screen-box" id="screenHome">
         <div class="game-header-banner">
-          <img src="/assets/img/hotoke.svg" alt="仏タイピングロゴ" class="game-logo-svg">
+          <img src="./assets/img/hotoke.svg" alt="仏タイピングロゴ" class="game-logo-svg">
         </div>
         
         <!-- スペースキーでスタート枠 -->
@@ -179,14 +179,14 @@
 
         <!-- 各種ボタン群（プレイ記録、獲得したランク、顔の変更） -->
         <div class="home-menu-buttons">
-          <button class="menu-btn" id="openPlayRecordBtn"><img src="/assets/img/buttons/play_record.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">タイピング記録</button>
-          <button class="menu-btn" id="openRankModalBtn"><img src="/assets/img/buttons/rank.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">獲得したランク</button>
-          <button class="menu-btn" id="openFaceModalBtn"><img src="/assets/img/buttons/change_faces.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">顔の変更</button>
+          <button class="menu-btn" id="openPlayRecordBtn"><img src="./assets/img/buttons/play_record.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">タイピング記録</button>
+          <button class="menu-btn" id="openRankModalBtn"><img src="./assets/img/buttons/rank.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">獲得したランク</button>
+          <button class="menu-btn" id="openFaceModalBtn"><img src="./assets/img/buttons/change_faces.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">顔の変更</button>
         </div>
         <!-- サブメニューボタン群（タイピング設定、バックアップ） -->
         <div class="home-sub-menu-buttons">
-          <button class="menu-btn" id="openSettingsModalBtn"><img src="/assets/img/buttons/typing_settings.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">タイピング設定</button>
-          <button class="menu-btn backup-active-glow" id="openBackupModalBtn"><img src="/assets/img/buttons/backup.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">バックアップ</button>
+          <button class="menu-btn" id="openSettingsModalBtn"><img src="./assets/img/buttons/typing_settings.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">タイピング設定</button>
+          <button class="menu-btn backup-active-glow" id="openBackupModalBtn"><img src="./assets/img/buttons/backup.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">バックアップ</button>
         </div>
 
         <!-- 各種モーダル・オーバーレイ置き場（プレイ画面内に収納） -->
@@ -316,7 +316,7 @@
         <!-- 8. プレイデータ削除確認モーダル（コンパクト化・アイコン位置修正） -->
         <div class="modal-overlay" id="deleteDataModal" style="background-color: rgba(0, 0, 0, 0.7);">
           <div class="modal-content" style="max-width: 380px; height: auto; text-align: center; padding: 25px 20px; margin: auto; display: flex; flex-direction: column; align-items: center;">
-            <img src="/assets/img/warning_icon.png" alt="警告アイコン" class="warning-icon-img" style="width: 48px; height: 48px; margin-bottom: 10px; object-fit: contain; display: block;">
+            <img src="./assets/img/warning_icon.png" alt="警告アイコン" class="warning-icon-img" style="width: 48px; height: 48px; margin-bottom: 10px; object-fit: contain; display: block;">
             <div style="font-weight: bold; font-size: 1.1rem; margin-bottom: 12px; color: #1f2937;">注意</div>
             <p style="margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5; color: #4b5563; white-space: pre-line;">消去すると本当に元に戻せなくなります。<br>プレイデータを消去してよろしいですか？</p>
             <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
@@ -345,9 +345,9 @@
           </div>
         </div>
         <div class="face-display-area" style="position: relative; overflow: hidden;">
-          <img id="faceImage" src="/assets/img/faces/default_normal.png" alt="表情" class="face-img-element" style="display: none;">
-          <img id="faceNormalLayer" class="face-layer-img" src="/assets/img/faces/default_normal.png" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 1; pointer-events: none;">
-          <img id="faceSmileLayer" class="face-layer-img" src="/assets/img/faces/default_smile.png" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 2; opacity: 0; transition: opacity 0.05s ease-out; pointer-events: none;">
+          <img id="faceImage" src="./assets/img/faces/default_normal.png" alt="表情" class="face-img-element" style="display: none;">
+          <img id="faceNormalLayer" class="face-layer-img" src="./assets/img/faces/default_normal.png" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 1; pointer-events: none;">
+          <img id="faceSmileLayer" class="face-layer-img" src="./assets/img/faces/default_smile.png" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 2; opacity: 0; transition: opacity 0.05s ease-out; pointer-events: none;">
         </div>
         <!-- 笑顔メーター -->
         <div class="smile-meter-container">
@@ -408,15 +408,15 @@
   <div id="siteFooter"></div>
 
   <!-- スクリプトの読み込み（絶対パス化） -->
-  <script src="/assets/js/words.js"></script>
-  <script src="/assets/js/sound.js"></script>
-  <script src="/assets/js/game.js"></script>
-  <script src="/assets/js/main.js"></script>
+  <script src="./assets/js/words.js"></script>
+  <script src="./assets/js/sound.js"></script>
+  <script src="./assets/js/game.js"></script>
+  <script src="./assets/js/main.js"></script>
 
   <!-- 共通ヘッダー・フッターの非同期読み込みスクリプト -->
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      fetch('/components/header.html')
+      fetch('./components/header.html')
         .then(response => {
           if (!response.ok) throw new Error('Header load failed');
           return response.text();
@@ -427,7 +427,7 @@
         })
         .catch(err => console.error('Header load error:', err));
 
-      fetch('/components/footer.html')
+      fetch('./components/footer.html')
         .then(response => {
           if (!response.ok) throw new Error('Footer load failed');
           return response.text();

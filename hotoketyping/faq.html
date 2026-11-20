@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>よくある質問 - 仏タイピング</title>
     <!-- タブアイコン (SVGを大きくすっぽりはまるサイズで指定) -->
-    <link rel="icon" type="image/svg+xml" href="/assets/img/TabIcon.svg">
-    <link rel="apple-touch-icon" href="/assets/img/TabIcon.svg">
+    <link rel="icon" type="image/svg+xml" href="./assets/img/TabIcon.svg">
+    <link rel="apple-touch-icon" href="./assets/img/TabIcon.svg">
     <!-- 共通スタイルシートの読み込み -->
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
     
     <style>
         /* 共通リセット・ベーススタイル */
@@ -165,11 +165,11 @@
     <div id="siteFooter"></div>
 
     <!-- 共通パーツ（Header / Footer）および各スクリプトの安全な非同期読み込み -->
-    <script src="/assets/js/main.js"></script>
+    <script src="./assets/js/main.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // ヘッダーの読み込み（絶対パス化）
-            fetch('/components/header.html')
+            fetch('./components/header.html')
                 .then(response => {
                     if (!response.ok) throw new Error('Header load failed');
                     return response.text();
@@ -181,7 +181,7 @@
                 .catch(err => console.error('Header load error:', err));
 
             // フッターの読み込み（絶対パス化）
-            fetch('/components/footer.html')
+            fetch('./components/footer.html')
                 .then(response => {
                     if (!response.ok) throw new Error('Footer load failed');
                     return response.text();

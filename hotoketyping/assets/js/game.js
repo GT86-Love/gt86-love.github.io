@@ -187,8 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const normalLayer = document.getElementById('faceNormalLayer');
     const smileLayer = document.getElementById('faceSmileLayer');
 
-    if (normalLayer) normalLayer.src = `../assets/img/faces/${prefix}_normal.png`;
-    if (smileLayer) smileLayer.src = `../assets/img/faces/${prefix}_smile.png`;
+    if (normalLayer) normalLayer.src = `./assets/img/faces/${prefix}_normal.png`;
+    if (smileLayer) smileLayer.src = `./assets/img/faces/${prefix}_smile.png`;
   }
 
   window.setSelectedFace = function(faceKey) {
@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (isUnlocked) {
         item.innerHTML = `
-          <img src="../assets/img/faces/${prefix}_normal.png" class="face-card-icon" style="width: 36px; height: 36px; object-fit: contain; flex-shrink: 0;">
+          <img src="./assets/img/faces/${prefix}_normal.png" class="face-card-icon" style="width: 36px; height: 36px; object-fit: contain; flex-shrink: 0;">
           <span class="face-card-name" style="font-weight: bold; font-size: 0.95rem; color: #1f2937;">${name}</span>
         `;
         item.addEventListener('click', () => {
@@ -1066,7 +1066,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <button id="resRestartBtn" title="もう一度" style="width: 42px; height: 42px; background: #e2e8f0; border: none; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px;">🔄</button>
           <button id="resOverviewBtn" title="概要" style="width: 42px; height: 42px; background: #e2e8f0; border: none; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px;">📋</button>
           <button id="resShareXBtn" title="Xにポスト" style="width: 42px; height: 42px; background: #000000; border: none; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-            <img src="../assets/img/x.png" alt="X" style="width: 18px; height: 18px; object-fit: contain;">
+            <img src="./assets/img/x.png" alt="X" style="width: 18px; height: 18px; object-fit: contain;">
           </button>
           <button id="resRankingBtn" title="ランキング" style="height: 42px; background: #e2e8f0; border: none; border-radius: 8px; cursor: pointer; padding: 0 12px; font-weight: bold; font-size: 12px; color: #1e293b;">ランキング</button>
         </div>
