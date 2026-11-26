@@ -5,7 +5,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   // ゲームの状態変数
   let gameState = 'HOME'; // HOME, WAITING_FIRST_KEY, PLAYING, RESULT
-  let currentWord = { text: "仏タイピング", romaji: "hotoketaiping" };
+  let currentWord = { text: "仏タイピング", kana: "ほとけたいぴんぐ", romaji: "hotoketaiping" };
+  let romajiSession = null; // RomajiEngine用の入力状態セッション
   let typedLength = 0;
   let startTime = null;
   let timerInterval = null; // タイマーID保持用
@@ -38,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 選択中の顔・アンロック状態管理（★ localStorageから前回の選択を復元するよう修正）
   let selectedFace = localStorage.getItem('hotoke_selected_face') || 'normal'; // normal, boss, mother, artisan, teacher, hermit, buddha
-  
+
   // --- タイピング設定の状態管理（★ localStorageから復元） ---
   let isRomajiVisible = localStorage.getItem('hotoke_romaji_guide') !== 'false';
   let isSoundEnabled = localStorage.getItem('hotoke_sound_enabled') !== 'false';
@@ -312,14 +313,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusBox = document.getElementById('backupStatusBox');
     const backupData = localStorage.getItem('hotoke_backup');
     const createBackupBtn = document.getElementById('createBackupBtn');
-    
+
     if (statusBox) {
       let parentContainer = statusBox.parentElement;
       if (parentContainer && !document.getElementById('backupActionsContainer')) {
         const actionContainer = document.createElement('div');
         actionContainer.id = 'backupActionsContainer';
         actionContainer.style.cssText = 'display: flex; gap: 10px; margin-top: 10px;';
-        
+
         const deleteBtn = document.createElement('button');
         deleteBtn.id = 'deleteBackupBtn';
         deleteBtn.className = 'btn-secondary';
@@ -344,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
               if (parsed.history) localStorage.setItem('hotoke_play_history', parsed.history);
               if (parsed.rankings) localStorage.setItem('hotoke_rankings', parsed.rankings);
               if (parsed.unlockedRanks) localStorage.setItem('hotoke_unlocked_ranks', parsed.unlockedRanks);
-              
+
               updatePlayRecordData();
               updateRankModalUI();
               updateBackupStatusUI();
@@ -449,7 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
       clearTimeout(transitionTimeout);
       transitionTimeout = null;
     }
-    
+
     if (timerInterval) {
       clearInterval(timerInterval);
       timerInterval = null;
@@ -460,6 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     gameState = 'WAITING_FIRST_KEY';
+    romajiSession = null;
     typedLength = 0;
     missCount = 0;
     totalTypedCount = 0;
@@ -475,11 +477,11 @@ document.addEventListener('DOMContentLoaded', () => {
     smileCount = 0;
     currentSmileStep = 0;
     updateSmileCountDisplay(); // ★ プレイ画面の笑顔カウント表示を0に初期化
-    
+
     // 最初からお題ワードをセットせず空にする
     if (typingWordEl) typingWordEl.innerHTML = '';
     isTypingEnabled = false;
-    
+
     playSoundEffect('start');
 
     updateFaceMorph(0.0);
@@ -496,7 +498,7 @@ document.addEventListener('DOMContentLoaded', () => {
       screenHome.style.opacity = '0';
       screenGame.style.display = 'flex';
       screenGame.style.visibility = 'visible';
-      
+
       void screenGame.offsetWidth;
 
       screenGame.style.opacity = '1';
@@ -536,22 +538,70 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
   }
 
+  // 現在の単語からRomajiEngineセッションを作成するヘルパー
+  function initRomajiSessionForCurrentWord() {
+    const sourceText = currentWord.kana || currentWord.romaji || currentWord.text;
+    if (typeof RomajiEngine !== 'undefined' && typeof RomajiEngine.createSession === 'function') {
+      romajiSession = RomajiEngine.createSession(sourceText);
+      typedLength = romajiSession.typedHistory.length;
+    } else {
+      romajiSession = null;
+      typedLength = 0;
+    }
+  }
+
+  // 指定したキーが現在入力可能か確認するヘルパー
+  function canAcceptKeyNow(key) {
+    if (typeof key !== 'string' || key.length !== 1) return false;
+    const lowerKey = key.toLowerCase();
+
+    if (romajiSession && typeof RomajiEngine !== 'undefined') {
+      const curToken = romajiSession.tokens[romajiSession.tokenIndex];
+      if (!curToken) return false;
+      const nextBuf = romajiSession.buffer + lowerKey;
+      const matched = curToken.candidates.some(c => c.startsWith(nextBuf));
+      if (matched) return true;
+
+      if (curToken.type === 'n' && romajiSession.buffer === 'n' && curToken.candidates.includes('n')) {
+        const nextToken = romajiSession.tokens[romajiSession.tokenIndex + 1];
+        if (nextToken && nextToken.candidates.some(c => c.startsWith(lowerKey))) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    const romaji = currentWord.romaji || currentWord.text;
+    const expectedChar = romaji[typedLength];
+    return Boolean(expectedChar && lowerKey === expectedChar.toLowerCase());
+  }
+
   function setNextWord(progress) {
     if (typeof WordSystem !== 'undefined' && typeof WordSystem.getNextWord === 'function') {
       currentWord = WordSystem.getNextWord(progress);
     } else {
-      currentWord = { text: "仏タイピング", romaji: "hotoketaiping" };
+      currentWord = { text: "仏タイピング", kana: "ほとけたいぴんぐ", romaji: "hotoketaiping" };
     }
-    typedLength = 0;
+    initRomajiSessionForCurrentWord();
     updateWordDisplay();
   }
 
   function updateWordDisplay() {
     if (!typingWordEl) return;
-    const romaji = currentWord.romaji || currentWord.text;
-    const matched = romaji.substring(0, typedLength);
-    const remaining = romaji.substring(typedLength);
-    
+
+    let matched = '';
+    let remaining = '';
+
+    if (romajiSession && typeof RomajiEngine !== 'undefined' && typeof RomajiEngine.getDisplayGuide === 'function') {
+      const guide = RomajiEngine.getDisplayGuide(romajiSession);
+      matched = guide.typed;
+      remaining = guide.remaining;
+    } else {
+      const romaji = currentWord.romaji || currentWord.text;
+      matched = romaji.substring(0, typedLength);
+      remaining = romaji.substring(typedLength);
+    }
+
     // ★ ローマ字設定がOFFの場合は非表示にする
     const romajiHtml = isRomajiVisible
       ? `<div style="font-size: 1.1rem; color: #6b7280;"><span style="color: #3b82f6;">${matched}</span>${remaining}</div>`
@@ -573,11 +623,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- 1文字ごとの入力処理・インフレ加算およびメーター進行ロジック ---
   function handleTypingInput(key) {
-    const romaji = currentWord.romaji || currentWord.text;
-    const expectedChar = romaji[typedLength];
-    
     if (gameState === 'WAITING_FIRST_KEY') {
-      if (expectedChar && key.toLowerCase() === expectedChar.toLowerCase()) {
+      if (canAcceptKeyNow(key)) {
         startTimerAndPlay();
       } else {
         return;
@@ -597,8 +644,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     totalTypedCount++;
 
-    if (expectedChar && key.toLowerCase() === expectedChar.toLowerCase()) {
-      typedLength++;
+    let isCorrect = false;
+    let isWordCompleted = false;
+
+    if (romajiSession && typeof RomajiEngine !== 'undefined' && typeof RomajiEngine.inputKey === 'function') {
+      const res = RomajiEngine.inputKey(romajiSession, key);
+      if (res.status === 'hit' || res.status === 'token_done' || res.status === 'completed') {
+        isCorrect = true;
+        typedLength = romajiSession.typedHistory.length;
+        isWordCompleted = (res.status === 'completed');
+      }
+    } else {
+      const romaji = currentWord.romaji || currentWord.text;
+      const expectedChar = romaji[typedLength];
+      if (expectedChar && key.toLowerCase() === expectedChar.toLowerCase()) {
+        isCorrect = true;
+        typedLength++;
+        isWordCompleted = (typedLength >= romaji.length);
+      }
+    }
+
+    if (isCorrect) {
       comboCount++;
       if (comboCount > maxCombo) maxCombo = comboCount;
 
@@ -632,7 +698,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       updateWordDisplay();
 
-      if (typedLength >= romaji.length) {
+      if (isWordCompleted) {
         setNextWord(progress);
       }
     } else {
@@ -802,7 +868,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- ランクカードにカーソルを合わせたときの解放条件表示機能（追加） ---
   function updateRankModalUI() {
     const unlockedRanks = JSON.parse(localStorage.getItem('hotoke_unlocked_ranks') || '[]');
-    
+
     let tooltip = document.getElementById('rankTooltipPopup');
     if (!tooltip) {
       tooltip = document.createElement('div');
@@ -837,10 +903,10 @@ document.addEventListener('DOMContentLoaded', () => {
           cardItem.dataset.tooltipInitialized = 'true';
 
           cardItem.addEventListener('mouseenter', () => {
-            const conditionText = isUnlocked 
+            const conditionText = isUnlocked
               ? `解放済み (笑顔にした回数: ${rank.scoreMin}〜${rank.scoreMax === Infinity ? '∞' : rank.scoreMax}回必要)`
               : `未解放 (笑顔にした回数: ${rank.scoreMin}〜${rank.scoreMax === Infinity ? '∞' : rank.scoreMax}回必要)`;
-            
+
             tooltip.textContent = `[Lv.${rank.id}] ${rank.name}\n${conditionText}`;
             tooltip.style.display = 'block';
           });
@@ -1048,7 +1114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     overlay.innerHTML = `
       <div style="background: rgba(255, 255, 255, 0.95); border-radius: 16px; padding: 24px; width: 340px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); text-align: center; position: relative; pointer-events: auto; font-family: 'Segoe UI', sans-serif;">
-        
+
         <div style="width: 140px; height: 140px; background: #f8fafc; border: 4px solid #1f2937; clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; line-height: 1.4; color: #1f2937; text-align: center; padding: 10px; box-sizing: border-box;">
           ${mainResultText}
         </div>
