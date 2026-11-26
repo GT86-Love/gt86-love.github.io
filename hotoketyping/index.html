@@ -50,11 +50,56 @@
     }
 
     .game-logo-svg {
-      max-width: 220px;
+      max-width: 320px;
       width: 100%;
       height: auto;
       object-fit: contain;
       display: block;
+    }
+
+    /* 案1：上段2個（大きめ）・下段3個（コンパクト） */
+    .home-menu-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto 10px auto;
+      padding: 0 12px;
+      box-sizing: border-box;
+    }
+
+    .home-menu-buttons .menu-btn {
+      flex: 1 1 0;
+      min-height: 48px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+
+    .home-sub-menu-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 0 12px;
+      box-sizing: border-box;
+    }
+
+    .home-sub-menu-buttons .menu-btn {
+      flex: 1 1 0;
+      min-height: 38px;
+      padding: 7px 10px;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
     }
 
     /* 説明枠の左側に広告をインラインで配置するコンテナ */
@@ -169,7 +214,7 @@
       <!-- 正方形のプレイ画面（ホーム画面） -->
       <section class="game-screen-box" id="screenHome">
         <div class="game-header-banner">
-          <img src="./assets/img/hotoke.svg" alt="仏タイピングロゴ" class="game-logo-svg">
+          <img src="./assets/img/hotoke.png" alt="仏タイピングロゴ" class="game-logo-svg">
         </div>
         
         <!-- スペースキーでスタート枠 -->
@@ -177,16 +222,16 @@
           <span class="gold-glow-text">スペースキーでスタート</span>
         </div>
 
-        <!-- 各種ボタン群（プレイ記録、獲得したランク、顔の変更） -->
+        <!-- 上段：メイン2ボタン（ランク一覧、顔をカスタマイズ） -->
         <div class="home-menu-buttons">
-          <button class="menu-btn" id="openPlayRecordBtn"><img src="./assets/img/buttons/play_record.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">タイピング記録</button>
-          <button class="menu-btn" id="openRankModalBtn"><img src="./assets/img/buttons/rank.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">獲得したランク</button>
-          <button class="menu-btn" id="openFaceModalBtn"><img src="./assets/img/buttons/change_faces.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">顔の変更</button>
+          <button class="menu-btn" id="openRankModalBtn"><img src="./assets/img/buttons/rank.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">ランク一覧</button>
+          <button class="menu-btn" id="openFaceModalBtn"><img src="./assets/img/buttons/change_faces.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">顔をカスタマイズ</button>
         </div>
-        <!-- サブメニューボタン群（タイピング設定、バックアップ） -->
+        <!-- 下段：サブ3ボタン（タイピング実績、タイピング設定、バックアップ） -->
         <div class="home-sub-menu-buttons">
-          <button class="menu-btn" id="openSettingsModalBtn"><img src="./assets/img/buttons/typing_settings.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">タイピング設定</button>
-          <button class="menu-btn backup-active-glow" id="openBackupModalBtn"><img src="./assets/img/buttons/backup.png" alt="" class="btn-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">バックアップ</button>
+          <button class="menu-btn" id="openPlayRecordBtn"><img src="./assets/img/buttons/play_record.png" alt="" class="btn-icon" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 4px;">タイピング実績</button>
+          <button class="menu-btn" id="openSettingsModalBtn"><img src="./assets/img/buttons/typing_settings.png" alt="" class="btn-icon" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 4px;">タイピング設定</button>
+          <button class="menu-btn backup-active-glow" id="openBackupModalBtn"><img src="./assets/img/buttons/backup.png" alt="" class="btn-icon" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 4px;">バックアップ</button>
         </div>
 
         <!-- 各種モーダル・オーバーレイ置き場（プレイ画面内に収納） -->
@@ -441,3 +486,4 @@
   </script>
 </body>
 </html>
+./assets/img/hotoke.svg
